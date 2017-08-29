@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<welcome-file-list>
+		<welcome-file>/</welcome-file>
+	</welcome-file-list>
+	<!-- 错误页面处理 ,一旦出错就发起error请求 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>402</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>406</error-code>
+		<location>/error</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>501</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
+		<error-code>502</error-code>
+		<location>/error</location>
+	</error-page>
+
+	<error-page>
+		<error-code>503</error-code>
+		<location>/error</location>
+	</error-page>
+
+
+
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/error</location>
+	</error-page>
+
+
+
+
+
+	<!-- 若不配置webAppRootKey，在tomcat中多个项目会有冲突 -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>resume.root</param-value>
+	</context-param>
+	<!-- post乱码过滤器 -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<!-- forceEncoding用来设置是否理会 request.getCharacterEncoding()方法，设置为true则强制覆盖之前的编码格式 -->
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<!-- 前端控制器 -->
+	<servlet>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- contextConfigLocation不是必须的， 如果不配置contextConfigLocation， springmvc的配置文件默认在：WEB-INF/servlet的name+"-servlet.xml" -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/applicationContext.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<!-- 设置页面伪静态话，只会拦截html请求，不会拦截css js请求，我们将js css资源放置到webroot目录下以便用户访问，而将jsp放置到web-inf目录下限制访问，通过freemark将jsp伪静态化 -->
+		<!-- 因为我们这里是前端与用户交互的界面，所以这个地方使用/ 拦截所有请求 rest风格 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+</web-app>
