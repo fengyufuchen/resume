@@ -8,6 +8,10 @@
 	</welcome-file-list>
 	<!-- 错误页面处理 ,一旦出错就发起error请求 -->
 	<error-page>
+		<error-code>400</error-code>
+		<location>/error</location>
+	</error-page>
+	<error-page>
 		<error-code>404</error-code>
 		<location>/error</location>
 	</error-page>
