@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ResumeVideoController {
 
+	
 	@RequestMapping(value = "/resume/video/{videoName}")
 	public void resumeImage(HttpServletRequest request, @PathVariable("videoName") String videoName,
 			HttpServletResponse response) throws Exception {
@@ -33,6 +34,7 @@ public class ResumeVideoController {
 
 		videoName = path1;
 		File file;
+		
 
 		System.out.println(videoName);
 		file = new File(videoName + ".mp4");
@@ -48,6 +50,7 @@ public class ResumeVideoController {
 		response.setContentLength(length);
 		inputStream.close();
 
+		
 		OutputStream stream = response.getOutputStream();
 		stream.write(data);
 		stream.flush();
